@@ -13,6 +13,8 @@ import android.content.res.Resources;
 
 public class MainActivity extends AppCompatActivity {
 
+    private WebViewClient webViewClient = new WebViewClientForMain();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,17 +22,21 @@ public class MainActivity extends AppCompatActivity {
 
         String url = "https://staging.dinomao.com/";
         WebView webView = (WebView) findViewById(R.id.web_view);
-        webView.loadUrl(url);
 
         WebView.setWebContentsDebuggingEnabled(true);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setDomStorageEnabled( true );
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         // settings.setSupportZoom(true);
         // settings.setBuiltInZoomControls(true);
+        System.out.println( 1111112 );
+        webView.setWebViewClient(webViewClient);
+//        webView.addJavascriptInterface();
 
-        // webView.setWebViewClient(webViewClient);
-        Settings.System.getString( context.getContentResolver(), Settings.System.ANDROID_ID );
+        String androidId = Settings.System.getString( getBaseContext().getContentResolver(), Settings.System.ANDROID_ID );
+        webView.loadUrl(url + "?platform=Android&id=" + androidId );
     }
 
     @Override
@@ -56,24 +62,5 @@ public class MainActivity extends AppCompatActivity {
             res.updateConfiguration(configuration, res.getDisplayMetrics());
         }
         return res;
-    }  
-
-    private WebViewClient webViewClient = new WebViewClient(){
-        @Override
-        public void onPageFinished(WebView view, String url) {//ҳ��������
-            // progressBar.setVisibility(view.GONE);
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {//ҳ�濪ʼ����
-            // progressBar.setVisibility(view.VISIBLE);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return false;
-            // return super.shouldOverrideUrlLoading(view, url);
-        }
-
-    };
+    }
 }
