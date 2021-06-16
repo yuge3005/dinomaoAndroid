@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String url = "https://staging.dinomao.com/";
+        String url = "http://10.0.2.2:4200";
         WebView webView = (WebView) findViewById(R.id.web_view);
 
         WebView.setWebContentsDebuggingEnabled(true);
@@ -29,12 +29,14 @@ public class MainActivity extends AppCompatActivity {
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setDomStorageEnabled( true );
-        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+//        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         // settings.setSupportZoom(true);
         // settings.setBuiltInZoomControls(true);
         System.out.println( 1111112 );
         webView.setWebViewClient(webViewClient);
 //        webView.addJavascriptInterface();
+        webView.addJavascriptInterface( new AndroidLogger(), "androidLogger");
 
 //        WebStorage.getInstance().deleteAllData();
 
