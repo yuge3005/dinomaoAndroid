@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
@@ -35,8 +36,11 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebViewClient(webViewClient);
 //        webView.addJavascriptInterface();
 
-        String androidId = Settings.System.getString( getBaseContext().getContentResolver(), Settings.System.ANDROID_ID );
-        webView.loadUrl(url + "?platform=Android&id=" + androidId );
+//        WebStorage.getInstance().deleteAllData();
+
+        WebViewClientForMain.androidId = Settings.System.getString( getBaseContext().getContentResolver(), Settings.System.ANDROID_ID );
+        WebViewClientForMain.mainUrl = url;
+        webView.loadUrl( WebViewClientForMain.getMainUrl() );
     }
 
     @Override
