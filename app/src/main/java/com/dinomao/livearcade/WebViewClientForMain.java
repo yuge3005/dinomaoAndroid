@@ -18,13 +18,11 @@ public class WebViewClientForMain extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {//ҳ��������
         // progressBar.setVisibility(view.GONE);
-        System.out.println(111122);
     }
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {//ҳ�濪ʼ����
         super.onPageStarted( view, url, favicon );
-        System.out.println(111133);
         System.out.println(url);
 
     }

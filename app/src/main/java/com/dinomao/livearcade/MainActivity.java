@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.webkit.WebChromeClient;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
@@ -31,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
         settings.setDomStorageEnabled( true );
 //        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
         // settings.setSupportZoom(true);
         // settings.setBuiltInZoomControls(true);
-        System.out.println( 1111112 );
         webView.setWebViewClient(webViewClient);
+        webView.setWebChromeClient(new WebChromeClient());
 //        webView.addJavascriptInterface();
         webView.addJavascriptInterface( new AndroidLogger(), "androidLogger");
 
