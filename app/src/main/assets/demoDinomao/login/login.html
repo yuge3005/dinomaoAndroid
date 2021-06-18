@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+        />
+        <title>Login</title>
+        <script type="text/javascript" src="main.full.js"></script>
+        <script type="text/javascript" src="common.js" defer></script>
+        <script type="text/javascript">
+            function initFacebook() {
+                FB.init({
+                    appId: '293048722427550',
+                    autoLogAppEvents: true,
+                    xfbml: true,
+                    version: 'v6.0'
+                });
+            }
+
+            window.fbAsyncInit = () => {
+                initFacebook();
+            };
+
+            DelayLoad.push([
+                {
+                    "type": "js",
+                    "id": "facebook-jssdk",
+	                "group": "facebook",
+	                "url": "https://connect.facebook.net/en_US/sdk.js"
+                }
+            ]);
+        </script>
+    </head>
+    <style>
+        * {
+            -webkit-touch-callout: none;
+            /*系统默认菜单被禁用*/
+            -webkit-user-select: none;
+            /*webkit浏览器*/
+            -khtml-user-select: none;
+            /*早期浏览器*/
+            -moz-user-select: none;
+            /*火狐*/
+            -ms-user-select: none;
+            /*IE10*/
+            user-select: none;
+        }
+
+        html,
+        body,
+        div,
+        img {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        body {
+            line-height: 1;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        /* 媒体查询 */
+        @media screen and (min-width: 500px) {
+            body,
+            .bg {
+                width: 430px;
+                max-width: 430px;
+                margin: 0 auto;
+            }
+        }
+
+        .bg {
+            height: 100%;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: 0 auto;
+        }
+
+        .login-content {
+            position: absolute;
+            top: 65%;
+            left: 0;
+            right: 0;
+            transform: translateY(-65%);
+            -webkit-transform: translateY(-65%);
+        }
+
+        .facebook-login-btn {
+			cursor: pointer;
+            width: 230px;
+            display: block;
+            margin: 0 auto 25px;
+            pointer-events: auto;
+        }
+
+        .google {
+			cursor: pointer;
+            width: 230px;
+            display: block;
+            margin: 0 auto 20px;
+            pointer-events: auto;
+        }
+
+        .guest {
+			cursor: pointer;
+            width: 47px;
+            display: block;
+            margin: 0 auto;
+            pointer-events: auto;
+        }
+		
+		#captcha{
+			top: 0px;
+			left: 0px;
+			width : 180px;
+			height: 25px;
+		}
+		
+		#captcha_container{
+			position: fixed;
+		}
+    </style>
+
+    <body onLoad="onBodyLoaded()">
+        <img src="img/loginbg.png" alt="" class="bg" />
+        <div id="captcha_container">
+        <img src="" alt="" id="captcha"/>
+        <input type="text" id="captcha_input">
+		</div>
+        <div class="login-content">
+            <img src="img/Facebook.png" alt="" class="facebook-login-btn" />
+            <img src="img/Google.png" alt="" class="google" />
+            <img src="img/Guest.png" alt="" class="guest" />
+        </div>
+    </body>
+</html>

@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String url = "http://10.0.2.2:4200";
+        String url = "file:///android_asset/demoDinomao/index.html";
         WebView webView = (WebView) findViewById(R.id.web_view);
 
         WebView.setWebContentsDebuggingEnabled(true);

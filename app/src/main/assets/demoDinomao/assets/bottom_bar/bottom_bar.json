@@ -1,0 +1,12 @@
+{"file":"bottom_bar.png","frames":{
+"SHOP1":{"x":752,"y":0,"w":180,"h":169,"offX":2,"offY":2,"sourceW":185,"sourceH":171},
+"SHOP":{"x":623,"y":127,"w":109,"h":106,"offX":0,"offY":5,"sourceW":109,"sourceH":115},
+"RANK1":{"x":320,"y":171,"w":156,"h":179,"offX":2,"offY":1,"sourceW":160,"sourceH":180},
+"RANK":{"x":934,"y":0,"w":86,"h":113,"offX":11,"offY":1,"sourceW":109,"sourceH":115},
+"PRIZE1":{"x":161,"y":171,"w":157,"h":182,"offX":2,"offY":2,"sourceW":161,"sourceH":184},
+"PRIZE":{"x":934,"y":115,"w":79,"h":110,"offX":0,"offY":0,"sourceW":79,"sourceH":110},
+"MY1":{"x":478,"y":127,"w":143,"h":186,"offX":2,"offY":2,"sourceW":147,"sourceH":188},
+"MY":{"x":91,"y":357,"w":71,"h":114,"offX":19,"offY":1,"sourceW":109,"sourceH":115},
+"HOME1":{"x":0,"y":171,"w":159,"h":184,"offX":2,"offY":1,"sourceW":163,"sourceH":185},
+"HOME":{"x":0,"y":357,"w":89,"h":115,"offX":10,"offY":0,"sourceW":109,"sourceH":115},
+"bottom_bg":{"x":0,"y":0,"w":750,"h":125,"offX":0,"offY":0,"sourceW":750,"sourceH":125}}}
