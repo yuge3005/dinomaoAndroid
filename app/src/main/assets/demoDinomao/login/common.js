@@ -106,7 +106,7 @@ function showTip(message) {
 }
 
 function enterGame() {
-    window.location.href = "https://staging.dinomao.com";
+    window.location.href = "../index.html";
 }
 
 function onBodyLoaded() {
