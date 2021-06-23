@@ -39,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebViewClient(webViewClient);
         webView.setWebChromeClient(new WebChromeClient());
 //        webView.addJavascriptInterface();
-        webView.addJavascriptInterface( new AndroidLogger(), "androidLogger");
+        AndroidLogger agloger = new AndroidLogger();
+        webView.addJavascriptInterface( agloger, "androidLogger");
+        agloger.webView = webView;
 
 //        WebStorage.getInstance().deleteAllData();
 
