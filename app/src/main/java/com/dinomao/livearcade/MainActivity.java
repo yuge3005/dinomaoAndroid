@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebStorage;
@@ -154,22 +155,17 @@ public class MainActivity extends AppCompatActivity {
 //        if( url == mainUrl ) url = getMainUrl();
 
             //Log.d("shouldOverrideUrlLoading", url);
-            if (url.indexOf("file:///android_asset/demoDinomao/index.html?user_account_info") >= 0) {
-                // This is my web site, so do not override; let my WebView load
-                // the page
-                System.out.println(111145);
-                if (mWebviewPop != null) {
-                    mWebviewPop.setVisibility(View.GONE);
-                    mContainer.removeView(mWebviewPop);
-                    System.out.println(111146);
-                    mWebviewPop = null;
-                }
-                return false;
-            }
-
-            if (url.indexOf("m.facebook.com") >= 0) {
-                return false;
-            }
+//            if (url.indexOf("file:///android_asset/demoDinomao/index.html?user_account_info") >= 0) {
+//                // This is my web site, so do not override; let my WebView load
+//                // the page
+//                System.out.println(111145);
+//
+//                return false;
+//            }
+//
+//            if (url.indexOf("m.facebook.com") >= 0) {
+//                return false;
+//            }
             // Otherwise, the link is not for a page on my site, so launch
             // another Activity that handles URLs
             return super.shouldOverrideUrlLoading(view, url);
@@ -183,6 +179,32 @@ public class MainActivity extends AppCompatActivity {
                                        SslError error) {
             Log.d("onReceivedSslError", "onReceivedSslError");
             //super.onReceivedSslError(view, handler, error);
+        }
+    }
+
+    class AndroidLogger extends Object{
+        public WebView webView;
+
+        @JavascriptInterface
+        public void log( String str ){
+            System.out.println( str );
+        }
+
+        @JavascriptInterface
+        public void backToLobby( String str ) {
+            webView.post( new Runnable() {
+                @Override
+                public void run() {
+                    webView.loadUrl("file:///android_asset/demoDinomao/index.html?" + str);
+
+                    if (mWebviewPop != null) {
+                        mWebviewPop.setVisibility(View.GONE);
+                        mContainer.removeView(mWebviewPop);
+                        System.out.println(111146);
+                        mWebviewPop = null;
+                    }
+                }
+            });
         }
     }
 }
