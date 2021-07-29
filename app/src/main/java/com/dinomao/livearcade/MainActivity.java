@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        WebStorage.getInstance().deleteAllData();
 
-        androidId = Settings.System.getString(getBaseContext().getContentResolver(), Settings.System.ANDROID_ID);
+        androidId = Settings.System.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         webView.loadUrl(getMainUrl());
 
         mContext = this.getApplicationContext();
