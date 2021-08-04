@@ -152,26 +152,7 @@ public class MainActivity extends AppCompatActivity {
 //            return false;
             System.out.println(111144);
             System.out.println(url);
-//        if( url == mainUrl ) url = getMainUrl();
-
-            //Log.d("shouldOverrideUrlLoading", url);
-//            if (url.indexOf("file:///android_asset/demoDinomao/index.html?user_account_info") >= 0) {
-//                // This is my web site, so do not override; let my WebView load
-//                // the page
-//                System.out.println(111145);
-//
-//                return false;
-//            }
-//
-//            if (url.indexOf("m.facebook.com") >= 0) {
-//                return false;
-//            }
-            // Otherwise, the link is not for a page on my site, so launch
-            // another Activity that handles URLs
             return super.shouldOverrideUrlLoading(view, url);
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//            startActivity(intent);
-//            return true;
         }
 
         @Override
@@ -205,6 +186,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+        }
+
+        @JavascriptInterface
+        public void purchase( String str ){
+            System.out.println( "purchase" );
+            GooglePlayPurchase.createPurchase(str);
         }
     }
 }
