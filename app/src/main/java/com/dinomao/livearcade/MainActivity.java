@@ -2,6 +2,7 @@ package com.dinomao.livearcade;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private WebView mWebviewPop;
     private FrameLayout mContainer;
     public Context mContext;
+    public Activity mActivity;
 
     public String androidId;
     public String mainUrl;
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         androidId = Settings.System.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         webView.loadUrl(getMainUrl());
 
+        mActivity = this;
         mContext = this.getApplicationContext();
     }
 
@@ -191,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public void purchase( String str ){
             System.out.println( "purchase" );
-            GooglePlayPurchase.createPurchase(str);
+            GooglePlayPurchase.createPurchase(str, mActivity);
         }
     }
 }
