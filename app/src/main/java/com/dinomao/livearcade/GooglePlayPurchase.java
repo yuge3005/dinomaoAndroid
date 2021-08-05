@@ -3,6 +3,9 @@ package com.dinomao.livearcade;
 import android.app.Activity;
 import android.webkit.WebView;
 
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.ConsumeParams;
+import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
@@ -25,9 +28,12 @@ public class GooglePlayPurchase {
 
     private static GooglePlayPurchase currentPurchase;
 
+    public static WebView webView;
+
     private PurchasesUpdatedListener purchasesUpdatedListener = new MyPurchasesUpdatedListener();
 
     private BillingClient billingClient;
+    private Activity activity;
 
     public static GooglePlayPurchase createPurchase(String purchaseInfoString, Activity mActivity ){
         return new GooglePlayPurchase( purchaseInfoString, mActivity );
@@ -50,6 +56,7 @@ public class GooglePlayPurchase {
                 .build();
 
         currentPurchase = this;
+        activity = mActivity;
 
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
@@ -87,7 +94,7 @@ public class GooglePlayPurchase {
         });
     }
 
-    public static void buyPurchase(WebView webView){
+    public static void buyPurchase(){
         Timer timer = new Timer();
         timer.schedule( new TimerTask() {
             @Override
@@ -97,20 +104,63 @@ public class GooglePlayPurchase {
                         @Override
                         public void run() {
                             System.out.println( "buy purchase" );
+                            GooglePlayPurchase.currentPurchase.buyPurchaseBySku();
                         }
                     });
                 }
                 else {
-                    GooglePlayPurchase.buyPurchase( webView );
+                    GooglePlayPurchase.buyPurchase();
                 }
             }
         }, 100);
     }
 
+    void buyPurchaseBySku(){
+        // Retrieve a value for "skuDetails" by calling querySkuDetailsAsync().
+        BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
+                .setSkuDetails(skuDetails)
+                .build();
+        int responseCode = billingClient.launchBillingFlow(activity, billingFlowParams).getResponseCode();
+        if( responseCode > 0 ) webView.loadUrl("javascript:document.androidPurchase('faild')");
+    }
+
     class MyPurchasesUpdatedListener implements PurchasesUpdatedListener{
         @Override
-        public void onPurchasesUpdated( BillingResult billingResult, List<Purchase> list) {
+        public void onPurchasesUpdated( BillingResult billingResult, List<Purchase> purchases) {
             System.out.println( "onPurchasesUpdated" );
+
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
+                    && purchases != null) {
+                for (Purchase purchase : purchases) {
+                    handlePurchase(purchase);
+                }
+            } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+                // Handle an error caused by a user cancelling the purchase flow.
+                System.out.println("user cancel");
+                webView.loadUrl("javascript:document.androidPurchase('faild')");
+            } else {
+                // Handle any other error codes.
+                webView.loadUrl("javascript:document.androidPurchase('faild')");
+            }
+        }
+
+        void handlePurchase(Purchase purchase) {
+            System.out.println( purchase );
+            ConsumeParams consumeParams =
+                    ConsumeParams.newBuilder()
+                            .setPurchaseToken(purchase.getPurchaseToken())
+                            .build();
+
+            ConsumeResponseListener listener = new ConsumeResponseListener() {
+                @Override
+                public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        // Handle the success of the consume operation.
+                    }
+                }
+            };
+
+            billingClient.consumeAsync(consumeParams, listener);
         }
     }
 }

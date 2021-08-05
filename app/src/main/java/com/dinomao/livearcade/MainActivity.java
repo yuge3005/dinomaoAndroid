@@ -87,15 +87,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        WebView webView = (WebView) findViewById(R.id.web_view);
-        webView.loadUrl("javascript:androidPause()");
+        webView.loadUrl("javascript:document.androidPause()");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        WebView webView = (WebView) findViewById(R.id.web_view);
-        webView.loadUrl("javascript:androidResume()");
+        webView.loadUrl("javascript:document.androidResume()");
     }
 
     @Override
@@ -195,7 +193,8 @@ public class MainActivity extends AppCompatActivity {
         public void purchase( String str ){
             System.out.println( "purchase" );
             GooglePlayPurchase.createPurchase(str, mActivity);
-            GooglePlayPurchase.buyPurchase( webView );
+            GooglePlayPurchase.webView = webView;
+            GooglePlayPurchase.buyPurchase();
         }
     }
 }
