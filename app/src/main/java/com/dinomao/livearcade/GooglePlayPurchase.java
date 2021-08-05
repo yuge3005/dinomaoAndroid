@@ -145,22 +145,8 @@ public class GooglePlayPurchase {
         }
 
         void handlePurchase(Purchase purchase) {
-            System.out.println( purchase );
-            ConsumeParams consumeParams =
-                    ConsumeParams.newBuilder()
-                            .setPurchaseToken(purchase.getPurchaseToken())
-                            .build();
-
-            ConsumeResponseListener listener = new ConsumeResponseListener() {
-                @Override
-                public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                        // Handle the success of the consume operation.
-                    }
-                }
-            };
-
-            billingClient.consumeAsync(consumeParams, listener);
+            String purchaseStr = purchase.toString();
+            webView.loadUrl("javascript:document.androidPurchase('ok" + purchaseStr + "')");
         }
     }
 }
