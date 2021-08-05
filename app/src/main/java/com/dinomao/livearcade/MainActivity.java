@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
         public void purchase( String str ){
             System.out.println( "purchase" );
             GooglePlayPurchase.createPurchase(str, mActivity);
+            GooglePlayPurchase.buyPurchase( webView );
         }
     }
 }
