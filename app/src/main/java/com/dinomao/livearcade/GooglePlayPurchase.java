@@ -16,18 +16,25 @@ import java.util.List;
 
 public class GooglePlayPurchase {
 
-    private String purchaseId;
+    private static String purchaseId;
+    private static int purchaseType;
 
     private PurchasesUpdatedListener purchasesUpdatedListener = new MyPurchasesUpdatedListener();
 
     private BillingClient billingClient;
 
-    public static GooglePlayPurchase createPurchase(String purchaseId, Activity mActivity ){
-        return new GooglePlayPurchase( purchaseId, mActivity );
+    public static GooglePlayPurchase createPurchase(String purchaseInfoString, Activity mActivity ){
+        return new GooglePlayPurchase( purchaseInfoString, mActivity );
     }
 
-    public GooglePlayPurchase( String purchaseId, Activity mActivity ){
-        this.purchaseId = purchaseId;
+    public GooglePlayPurchase( String purchaseInfoString, Activity mActivity ){
+        String[] purchaseInfo = purchaseInfoString.split(",");
+        if( purchaseInfo.length != 2 ) {
+            System.out.print( "purchase info error" );
+            return;
+        }
+        this.purchaseId = purchaseInfo[0];
+        this.purchaseType = Integer.parseInt( purchaseInfo[1] );
 
         System.out.println(purchaseId);
 
@@ -48,16 +55,16 @@ public class GooglePlayPurchase {
                 }
 
                 List<String> skuList = new ArrayList<>();
-                skuList.add("premium_upgrade");
-                skuList.add("gas");
+                System.out.println( "purchaseId:" + GooglePlayPurchase.purchaseId );
+                System.out.println( "purchaseType:" + GooglePlayPurchase.purchaseType );
+                skuList.add(GooglePlayPurchase.purchaseId);
                 SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-                params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
+                params.setSkusList(skuList).setType( GooglePlayPurchase.purchaseType != 0 ? BillingClient.SkuType.SUBS : BillingClient.SkuType.INAPP );
                 billingClient.querySkuDetailsAsync(params.build(),
                         new SkuDetailsResponseListener() {
                             @Override
                             public void onSkuDetailsResponse(BillingResult billingResult,
                                                              List<SkuDetails> skuDetailsList) {
-                                System.out.println( "skuDetailsList" );
                                 System.out.println( skuDetailsList );
                             }
                         });

@@ -10,8 +10,8 @@ android {
         applicationId "com.dinomao.livearcade"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "2.13"
+        versionCode 220
+        versionName "2.20"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
