@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.webkit.WebView;
 
 import com.android.billingclient.api.BillingFlowParams;
-import com.android.billingclient.api.ConsumeParams;
-import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
@@ -35,8 +33,11 @@ public class GooglePlayPurchase {
     private BillingClient billingClient;
     private Activity activity;
 
-    public static GooglePlayPurchase createPurchase(String purchaseInfoString, Activity mActivity ){
-        return new GooglePlayPurchase( purchaseInfoString, mActivity );
+    public static GooglePlayPurchase createPurchase(String purchaseInfoString, Activity mActivity, WebView mainWebView ){
+        webView = mainWebView;
+        currentPurchase = new GooglePlayPurchase( purchaseInfoString, mActivity );
+        buyPurchase();
+        return currentPurchase;
     }
 
     public GooglePlayPurchase( String purchaseInfoString, Activity mActivity ){
@@ -55,7 +56,6 @@ public class GooglePlayPurchase {
                 .enablePendingPurchases()
                 .build();
 
-        currentPurchase = this;
         activity = mActivity;
 
         billingClient.startConnection(new BillingClientStateListener() {
@@ -67,6 +67,10 @@ public class GooglePlayPurchase {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
                     System.out.println( "connect to google play server" );
+                }
+                else {
+                    webView.loadUrl("javascript:document.androidPurchase('faild')");
+                    return;
                 }
 
                 List<String> skuList = new ArrayList<>();
@@ -90,6 +94,7 @@ public class GooglePlayPurchase {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
                 System.out.println("onBillingServiceDisconnected");
+                webView.loadUrl("javascript:document.androidPurchase('faild')");
             }
         });
     }
@@ -104,12 +109,12 @@ public class GooglePlayPurchase {
                         @Override
                         public void run() {
                             System.out.println( "buy purchase" );
-                            GooglePlayPurchase.currentPurchase.buyPurchaseBySku();
+                            currentPurchase.buyPurchaseBySku();
                         }
                     });
                 }
                 else {
-                    GooglePlayPurchase.buyPurchase();
+                    buyPurchase();
                 }
             }
         }, 100);

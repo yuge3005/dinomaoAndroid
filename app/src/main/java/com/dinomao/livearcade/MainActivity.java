@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Message;
@@ -18,7 +16,6 @@ import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
@@ -192,9 +189,7 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public void purchase( String str ){
             System.out.println( "purchase" );
-            GooglePlayPurchase.createPurchase(str, mActivity);
-            GooglePlayPurchase.webView = webView;
-            GooglePlayPurchase.buyPurchase();
+            GooglePlayPurchase.createPurchase(str, mActivity, webView);
         }
     }
 }
