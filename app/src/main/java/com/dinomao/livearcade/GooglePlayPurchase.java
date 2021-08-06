@@ -49,8 +49,6 @@ public class GooglePlayPurchase {
         this.purchaseId = purchaseInfo[0];
         this.purchaseType = Integer.parseInt( purchaseInfo[1] );
 
-        System.out.println(purchaseId);
-
         billingClient = BillingClient.newBuilder(mActivity)
                 .setListener(purchasesUpdatedListener)
                 .enablePendingPurchases()
@@ -69,7 +67,7 @@ public class GooglePlayPurchase {
                     System.out.println( "connect to google play server" );
                 }
                 else {
-                    webView.loadUrl("javascript:document.androidPurchase('faild')");
+                    purchaseFaild();
                     return;
                 }
 
@@ -94,7 +92,7 @@ public class GooglePlayPurchase {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
                 System.out.println("onBillingServiceDisconnected");
-                webView.loadUrl("javascript:document.androidPurchase('faild')");
+                purchaseFaild();
             }
         });
     }
@@ -126,7 +124,14 @@ public class GooglePlayPurchase {
                 .setSkuDetails(skuDetails)
                 .build();
         int responseCode = billingClient.launchBillingFlow(activity, billingFlowParams).getResponseCode();
-        if( responseCode > 0 ) webView.loadUrl("javascript:document.androidPurchase('faild')");
+        if( responseCode > 0 ) purchaseFaild();
+    }
+
+    public static void purchaseFaild(){
+        webView.loadUrl("javascript:document.androidPurchase('faild')");
+        skuDetails = null;
+        currentPurchase = null;
+        webView = null;
     }
 
     class MyPurchasesUpdatedListener implements PurchasesUpdatedListener{
@@ -142,16 +147,20 @@ public class GooglePlayPurchase {
             } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
                 // Handle an error caused by a user cancelling the purchase flow.
                 System.out.println("user cancel");
-                webView.loadUrl("javascript:document.androidPurchase('faild')");
+                purchaseFaild();
             } else {
                 // Handle any other error codes.
-                webView.loadUrl("javascript:document.androidPurchase('faild')");
+                purchaseFaild();
             }
         }
 
         void handlePurchase(Purchase purchase) {
             String purchaseStr = purchase.toString();
+            System.out.println(purchaseStr);
             webView.loadUrl("javascript:document.androidPurchase('ok" + purchaseStr + "')");
+            skuDetails = null;
+            currentPurchase = null;
+            webView = null;
         }
     }
 }
