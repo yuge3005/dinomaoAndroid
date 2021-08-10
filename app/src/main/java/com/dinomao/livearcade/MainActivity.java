@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             webView.post( new Runnable() {
                 @Override
                 public void run() {
-                    webView.loadUrl("file:///android_asset/demoDinomao/index.html?" + str);
+                    webView.loadUrl(mainUrl + "?" + str);
 
                     if (mWebviewPop != null) {
                         mWebviewPop.setVisibility(View.GONE);

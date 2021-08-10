@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.webkit.WebView;
 
 import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.ConsumeParams;
+import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
@@ -161,6 +163,22 @@ public class GooglePlayPurchase {
             skuDetails = null;
             currentPurchase = null;
             webView = null;
+
+            ConsumeParams consumeParams =
+                    ConsumeParams.newBuilder()
+                            .setPurchaseToken(purchase.getPurchaseToken())
+                            .build();
+
+            ConsumeResponseListener listener = new ConsumeResponseListener() {
+                @Override
+                public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        System.out.println( "confirm purchase" );
+                    }
+                }
+            };
+
+            billingClient.consumeAsync(consumeParams, listener);
         }
     }
 }
