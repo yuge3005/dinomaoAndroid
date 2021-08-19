@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //            return false;
             System.out.println(111144);
-            System.out.println(url);
             return super.shouldOverrideUrlLoading(view, url);
         }
 
@@ -190,6 +189,29 @@ public class MainActivity extends AppCompatActivity {
         public void purchase( String str ){
             System.out.println( "purchase" );
             GooglePlayPurchase.createPurchase(str, mActivity, webView);
+        }
+
+        @JavascriptInterface
+        public void video( String str ){
+            System.out.println( "video：" );
+            System.out.println( str );
+            if( str.indexOf( "weLoaded" ) >= 0 ) {
+                webView.post( new Runnable() {
+                    @Override
+                    public void run() {
+//                        webView.loadUrl("javascript:document.getElementById('videoFrame').contentWindow.playVideo()");
+                    }
+                });
+            }
+            else if( str.indexOf( "goods" ) >= 0 ){
+                webView.post( new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.loadUrl("javascript: console.log( document.getElementById('videoFrame') )");
+                        webView.loadUrl("javascript:document.getElementById('videoFrame').contentWindow.playVideo()");
+                    }
+                });
+            }
         }
     }
 }
