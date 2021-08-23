@@ -195,22 +195,18 @@ public class MainActivity extends AppCompatActivity {
         public void video( String str ){
             System.out.println( "video：" );
             System.out.println( str );
-            if( str.indexOf( "weLoaded" ) >= 0 ) {
+            try{
+                int a = Integer.valueOf( str );
                 webView.post( new Runnable() {
                     @Override
                     public void run() {
-//                        webView.loadUrl("javascript:document.getElementById('videoFrame').contentWindow.playVideo()");
+                        System.out.println( "videoFrame" );
+                        webView.loadUrl("javascript:document.getElementById('videoFrame').contentWindow.playVideo(" + a + ")");
                     }
                 });
             }
-            else if( str.indexOf( "goods" ) >= 0 ){
-                webView.post( new Runnable() {
-                    @Override
-                    public void run() {
-                        webView.loadUrl("javascript: console.log( document.getElementById('videoFrame') )");
-                        webView.loadUrl("javascript:document.getElementById('videoFrame').contentWindow.playVideo()");
-                    }
-                });
+            catch ( Exception e ){
+                System.out.println( "stream id is not integer" );
             }
         }
     }
