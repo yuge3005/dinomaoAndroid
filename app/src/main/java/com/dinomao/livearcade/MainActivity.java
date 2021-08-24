@@ -84,13 +84,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        webView.loadUrl("javascript:document.androidPause()");
+        webView.loadUrl("javascript:document.appPause()");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        webView.loadUrl("javascript:document.androidResume()");
+        webView.loadUrl("javascript:document.appResume()");
     }
 
     @Override
