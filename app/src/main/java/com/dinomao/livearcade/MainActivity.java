@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             webView.post( new Runnable() {
                 @Override
                 public void run() {
-                    webView.loadUrl("javascript:console.log('needActive')");
+                    webView.loadUrl("javascript:document.body.bgcolor");
                 }
             });
         }
