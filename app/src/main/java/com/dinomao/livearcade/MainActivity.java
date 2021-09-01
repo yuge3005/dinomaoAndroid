@@ -192,6 +192,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
+        public void needActive( String str ){
+            System.out.println( "needActive" );
+            webView.post( new Runnable() {
+                @Override
+                public void run() {
+                    webView.loadUrl("javascript:console.log('needActive')");
+                }
+            });
+        }
+
+        @JavascriptInterface
         public void video( String str ){
             System.out.println( "video：" );
             System.out.println( str );
