@@ -88,13 +88,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initSingularSDK() {
-        SingularConfig config = new SingularConfig(Constants.API_KEY, Constants.SECRET).withSingularLink(getIntent(), new SingularLinkHandler() {
-            @Override
-            public void onResolved(SingularLinkParams singularLinkParams) {
-                deeplinkData = new Bundle();
-                deeplinkData.putString(Constants.DEEPLINK_KEY, singularLinkParams.getDeeplink());
-                deeplinkData.putString(Constants.PASSTHROUGH_KEY, singularLinkParams.getPassthrough());
-                deeplinkData.putBoolean(Constants.IS_DEFERRED_KEY, singularLinkParams.isDeferred());
+//        SingularConfig config = new SingularConfig(Constants.API_KEY, Constants.SECRET).withSingularLink(getIntent(), new SingularLinkHandler() {
+//            @Override
+//            public void onResolved(SingularLinkParams singularLinkParams) {
+//                deeplinkData = new Bundle();
+//                deeplinkData.putString(Constants.DEEPLINK_KEY, singularLinkParams.getDeeplink());
+//                deeplinkData.putString(Constants.PASSTHROUGH_KEY, singularLinkParams.getPassthrough());
+//                deeplinkData.putBoolean(Constants.IS_DEFERRED_KEY, singularLinkParams.isDeferred());
 
                 // When the is opened using a deeplink, we will open the deeplink tab
 //                runOnUiThread(new Runnable() {
@@ -103,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
 //                        tabLayout.getTabAt(3).select();
 //                    }
 //                });
-            }
-        });
+//            }
+//        });
+
+        SingularConfig config = new SingularConfig(Constants.API_KEY, Constants.SECRET).withCustomUserId(androidId);
 
         Singular.init(this, config);
     }
