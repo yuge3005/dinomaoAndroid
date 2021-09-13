@@ -23,6 +23,8 @@ import android.graphics.Bitmap;
 import android.content.res.Resources;
 import android.widget.FrameLayout;
 
+import com.singular.sdk.*;
+
 public class MainActivity extends AppCompatActivity {
 
     private WebViewClient webViewClient = new WebViewClientForMain();
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     public String getMainUrl(){
         return mainUrl + "?platform=Android&id=" + androidId;
     }
+
+    private Bundle deeplinkData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,30 @@ public class MainActivity extends AppCompatActivity {
 
         mActivity = this;
         mContext = this.getApplicationContext();
+
+        initSingularSDK();
+    }
+
+    private void initSingularSDK() {
+        SingularConfig config = new SingularConfig(Constants.API_KEY, Constants.SECRET).withSingularLink(getIntent(), new SingularLinkHandler() {
+            @Override
+            public void onResolved(SingularLinkParams singularLinkParams) {
+                deeplinkData = new Bundle();
+                deeplinkData.putString(Constants.DEEPLINK_KEY, singularLinkParams.getDeeplink());
+                deeplinkData.putString(Constants.PASSTHROUGH_KEY, singularLinkParams.getPassthrough());
+                deeplinkData.putBoolean(Constants.IS_DEFERRED_KEY, singularLinkParams.isDeferred());
+
+                // When the is opened using a deeplink, we will open the deeplink tab
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        tabLayout.getTabAt(3).select();
+//                    }
+//                });
+            }
+        });
+
+        Singular.init(this, config);
     }
 
     @Override

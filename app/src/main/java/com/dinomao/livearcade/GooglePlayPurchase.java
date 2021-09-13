@@ -14,6 +14,7 @@ import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.singular.sdk.Singular;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class GooglePlayPurchase {
         webView = mainWebView;
         currentPurchase = new GooglePlayPurchase( purchaseInfoString, mActivity );
         buyPurchase();
+        Singular.event("buy");
         return currentPurchase;
     }
 
@@ -134,6 +136,7 @@ public class GooglePlayPurchase {
         skuDetails = null;
         currentPurchase = null;
         webView = null;
+        Singular.event("purchaseFaild");
     }
 
     class MyPurchasesUpdatedListener implements PurchasesUpdatedListener{
@@ -163,6 +166,7 @@ public class GooglePlayPurchase {
             skuDetails = null;
             currentPurchase = null;
             webView = null;
+            Singular.event("buySuccess");
 
             ConsumeParams consumeParams =
                     ConsumeParams.newBuilder()
