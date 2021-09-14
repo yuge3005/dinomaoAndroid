@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Message;
@@ -179,6 +181,12 @@ public class MainActivity extends AppCompatActivity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //            return false;
             System.out.println(111144);
+            if( url.equals("https://www.dinomao.com/pages/contact-us") ||  url.equals("https://www.dinomao.com/apps/help-center") ){
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                return true;
+            }
             return super.shouldOverrideUrlLoading(view, url);
         }
 
