@@ -181,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //            return false;
             System.out.println(111144);
-            if( url.equals("https://www.dinomao.com/pages/contact-us") ||  url.equals("https://www.dinomao.com/apps/help-center") ){
+            if( url.equals("https://www.dinomao.com/pages/contact-us") || url.equals("https://www.dinomao.com/apps/help-center")
+                    || url.equals("https://www.dinomao.com/policies/terms-of-service") || url.equals("https://www.dinomao.com/policies/privacy-policy") ){
                 Uri uri = Uri.parse(url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
