@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         settings.setDomStorageEnabled(true);
 //        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowFileAccess(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         // settings.setSupportZoom(true);
         // settings.setBuiltInZoomControls(true);
@@ -256,7 +256,8 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
             catch ( Exception e ){
-                System.out.println( "stream id is not integer" );
+                System.out.println( "video message" );
+                System.out.println( str );
             }
         }
     }
