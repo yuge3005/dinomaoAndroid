@@ -249,5 +249,30 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println( str );
             }
         }
+
+        @JavascriptInterface
+        public void report( String str ){
+            try {
+                String[] eventStrings = str.split("_");
+                String cmd = eventStrings[0];
+                switch (cmd) {
+                    case "First Login":
+                        Singular.event("First Login", eventStrings[1]);
+                        break;
+                    case "buySuccess":
+                        Singular.event("First Login", "id", eventStrings[1], "type", eventStrings[2], "", "price", eventStrings[3]);
+                        break;
+                }
+            }
+            catch ( Exception e ){
+                webView.post( new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println( str );
+                        webView.loadUrl("javascript:alert('Singular report mistake');");
+                    }
+                });
+            }
+        }
     }
 }
