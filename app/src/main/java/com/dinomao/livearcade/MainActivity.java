@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                         Singular.event("First Login", eventStrings[1]);
                         break;
                     case "buySuccess":
-                        Singular.event("First Login", "id", eventStrings[1], "type", eventStrings[2], "", "price", eventStrings[3]);
+                        Singular.event("buySuccess", "id", eventStrings[1], "type", eventStrings[2], "price", eventStrings[3]);
                         break;
                 }
             }
