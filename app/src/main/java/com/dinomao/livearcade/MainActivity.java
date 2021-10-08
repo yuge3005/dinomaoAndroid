@@ -25,6 +25,14 @@ import android.graphics.Bitmap;
 import android.content.res.Resources;
 import android.widget.FrameLayout;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.LoginStatusCallback;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.singular.sdk.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -90,26 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initSingularSDK() {
-//        SingularConfig config = new SingularConfig(Constants.API_KEY, Constants.SECRET).withSingularLink(getIntent(), new SingularLinkHandler() {
-//            @Override
-//            public void onResolved(SingularLinkParams singularLinkParams) {
-//                deeplinkData = new Bundle();
-//                deeplinkData.putString(Constants.DEEPLINK_KEY, singularLinkParams.getDeeplink());
-//                deeplinkData.putString(Constants.PASSTHROUGH_KEY, singularLinkParams.getPassthrough());
-//                deeplinkData.putBoolean(Constants.IS_DEFERRED_KEY, singularLinkParams.isDeferred());
-
-                // When the is opened using a deeplink, we will open the deeplink tab
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        tabLayout.getTabAt(3).select();
-//                    }
-//                });
-//            }
-//        });
-
         SingularConfig config = new SingularConfig(Constants.API_KEY, Constants.SECRET).withCustomUserId(androidId);
-
         Singular.init(this, config);
     }
 
@@ -141,19 +130,25 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onCreateWindow(WebView view, boolean isDialog,
                                       boolean isUserGesture, Message resultMsg) {
-            mWebviewPop = new WebView(mContext);
-            mWebviewPop.setVerticalScrollBarEnabled(false);
-            mWebviewPop.setHorizontalScrollBarEnabled(false);
-            mWebviewPop.setWebViewClient(new WebViewClientForMain());
-            mWebviewPop.getSettings().setJavaScriptEnabled(true);
-            mWebviewPop.getSettings().setSavePassword(false);
-            mWebviewPop.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-            mContainer.addView(mWebviewPop);
-            WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
-            transport.setWebView(mWebviewPop);
-            resultMsg.sendToTarget();
 
+            CallbackManager callbackManager = CallbackManager.Factory.create();
+
+            LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+            // Callback registration
+            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    // App code
+                }
+                @Override
+                public void onCancel() {
+                    // App code
+                }
+                @Override
+                public void onError(FacebookException exception) {
+                    // App code
+                }
+            });
             return true;
         }
 
@@ -174,7 +169,10 @@ public class MainActivity extends AppCompatActivity {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {//ҳ�濪ʼ����
             super.onPageStarted(view, url, favicon);
             System.out.println(url);
-
+            if( url.indexOf("login.html") >= 0 ){
+                LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+                loginButton.setVisibility( View.VISIBLE );
+            }
         }
 
         @Override
