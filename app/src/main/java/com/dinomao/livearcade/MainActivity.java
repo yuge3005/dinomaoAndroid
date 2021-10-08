@@ -35,6 +35,8 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.singular.sdk.*;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
 
     private WebViewClient webViewClient = new WebViewClientForMain();
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Bundle deeplinkData;
+
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,25 @@ public class MainActivity extends AppCompatActivity {
         mContext = this.getApplicationContext();
 
         initSingularSDK();
+
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager,
+            new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    System.out.println( "try login 1" );
+                }
+
+                @Override
+                public void onCancel() {
+                    System.out.println( "try login 2" );
+                }
+
+                @Override
+                public void onError(FacebookException exception) {
+                    System.out.println( "try login 3" );
+                }
+            });
     }
 
     private void initSingularSDK() {
@@ -125,30 +148,18 @@ public class MainActivity extends AppCompatActivity {
         return res;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     class WebChromeClientForMain extends WebChromeClient {
 
         @Override
         public boolean onCreateWindow(WebView view, boolean isDialog,
                                       boolean isUserGesture, Message resultMsg) {
-
-            CallbackManager callbackManager = CallbackManager.Factory.create();
-
-            LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-            // Callback registration
-            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    // App code
-                }
-                @Override
-                public void onCancel() {
-                    // App code
-                }
-                @Override
-                public void onError(FacebookException exception) {
-                    // App code
-                }
-            });
+            LoginManager.getInstance().logInWithReadPermissions( mActivity, Arrays.asList("public_profile", "user_friends", "email") );
             return true;
         }
 
@@ -169,10 +180,6 @@ public class MainActivity extends AppCompatActivity {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {//ҳ�濪ʼ����
             super.onPageStarted(view, url, favicon);
             System.out.println(url);
-            if( url.indexOf("login.html") >= 0 ){
-                LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-                loginButton.setVisibility( View.VISIBLE );
-            }
         }
 
         @Override
