@@ -108,9 +108,10 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println( "try login 1" );
                     AccessToken accessToken = AccessToken.getCurrentAccessToken();
                     boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-                    System.out.println( accessToken );
-                    System.out.println( isLoggedIn );
-                    
+                    String user_account_info = "platform=Android&sid=f4grk1ufogbq5ulmab43ud6oa5&access_token=" + accessToken.getToken();
+                    user_account_info += "&expireTime=" + Math.round( accessToken.getExpires().getTime() / 1000 ) + "&login_type=facebook";
+                    webView.loadUrl(mainUrl + "?" + "user_account_info=" + user_account_info );
+                    System.out.println( mainUrl + "?" + "user_account_info=" + user_account_info );
                 }
 
                 @Override
