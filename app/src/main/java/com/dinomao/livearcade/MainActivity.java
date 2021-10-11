@@ -106,16 +106,23 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
                     System.out.println( "try login 1" );
+                    AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                    boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+                    System.out.println( accessToken );
+                    System.out.println( isLoggedIn );
+                    
                 }
 
                 @Override
                 public void onCancel() {
                     System.out.println( "try login 2" );
+                    webView.loadUrl("javascript:alert('login failed')");
                 }
 
                 @Override
                 public void onError(FacebookException exception) {
                     System.out.println( "try login 3" );
+                    webView.loadUrl("javascript:alert('login failed')");
                 }
             });
     }
@@ -150,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     class WebChromeClientForMain extends WebChromeClient {
@@ -159,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onCreateWindow(WebView view, boolean isDialog,
                                       boolean isUserGesture, Message resultMsg) {
-            LoginManager.getInstance().logInWithReadPermissions( mActivity, Arrays.asList("public_profile", "user_friends", "email") );
+            LoginManager.getInstance().logInWithReadPermissions( mActivity, Arrays.asList("public_profile") );
             return true;
         }
 
