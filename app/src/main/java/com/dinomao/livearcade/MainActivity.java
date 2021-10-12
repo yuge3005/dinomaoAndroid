@@ -29,10 +29,9 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.LoginStatusCallback;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.singular.sdk.*;
 
 import java.util.Arrays;
@@ -90,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
         webView.addJavascriptInterface(agloger, "androidLogger");
         agloger.webView = webView;
 
-//        WebStorage.getInstance().deleteAllData();
-
         androidId = Settings.System.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         webView.loadUrl(getMainUrl());
 
@@ -123,9 +120,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onError(FacebookException exception) {
                     System.out.println( "try login 3" );
+                    System.out.println( exception );
                     webView.loadUrl("javascript:alert('login failed')");
                 }
             });
+        LoginManager.getInstance().setLoginBehavior( LoginBehavior.WEB_ONLY );
     }
 
     private void initSingularSDK() {
