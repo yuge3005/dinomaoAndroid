@@ -286,5 +286,16 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
+
+        @JavascriptInterface
+        public void share( String str ){
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, str);
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+        }
     }
 }
