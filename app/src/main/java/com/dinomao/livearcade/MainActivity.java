@@ -13,7 +13,6 @@ import android.os.Message;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
@@ -179,12 +178,12 @@ public class MainActivity extends AppCompatActivity {
     class WebViewClientForMain extends WebViewClient {
 
         @Override
-        public void onPageFinished(WebView view, String url) {//ҳ��������
+        public void onPageFinished(WebView view, String url) {
             // progressBar.setVisibility(view.GONE);
         }
 
         @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {//ҳ�濪ʼ����
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             System.out.println(url);
         }
