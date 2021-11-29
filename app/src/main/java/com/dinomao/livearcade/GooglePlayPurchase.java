@@ -14,6 +14,7 @@ import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.singular.sdk.Singular;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class GooglePlayPurchase {
     private static String purchaseId;
     private static int purchaseType;
     private static SkuDetails skuDetails;
+    private static float price;
 
     private static GooglePlayPurchase currentPurchase;
 
@@ -86,6 +88,16 @@ public class GooglePlayPurchase {
                                                          List<SkuDetails> skuDetailsList) {
                             System.out.println( skuDetailsList );
                             skuDetails = skuDetailsList.get(0);
+                            String priceStr = skuDetails.getTitle();
+
+                            try {
+                                priceStr = priceStr.replaceFirst( "\\D", "");
+                                priceStr = priceStr.replaceFirst( " \\D*", "");
+                                price = Float.parseFloat(priceStr);
+                            }
+                            catch (Exception e){
+                                System.out.println( "replaceFirst error" );
+                            }
                         }
                     });
             }
@@ -163,6 +175,15 @@ public class GooglePlayPurchase {
             skuDetails = null;
             currentPurchase = null;
             webView = null;
+
+            try {
+                System.out.println("purchaseStr");
+                System.out.println(price);
+                Singular.revenue( "USD", price, purchase );
+            }
+            catch ( Exception e){
+                System.out.println("purchaseStr error");
+            }
 
             ConsumeParams consumeParams =
                     ConsumeParams.newBuilder()
