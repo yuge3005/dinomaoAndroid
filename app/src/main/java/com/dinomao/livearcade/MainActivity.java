@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     user_account_info += "&expireTime=" + Math.round( accessToken.getExpires().getTime() / 1000 ) + ( isLinkToToken ? "&login_type=facebook_link_account" : "&login_type=facebook" );
                     webView.loadUrl(mainUrl + "?" + ( isLinkToToken ? "link_token=" : "user_account_info=" ) + user_account_info );
                     System.out.println( mainUrl + "?" +  ( isLinkToToken ? "link_token=" : "user_account_info=" ) + user_account_info );
+                    isLinkToToken = false;
                 }
 
                 @Override
@@ -227,9 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 isLinkToToken = true;
                 return;
             }
-            else {
-                isLinkToToken = false;
-            }
+
             webView.post( new Runnable() {
                 @Override
                 public void run() {
