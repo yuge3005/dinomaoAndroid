@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "493599140751",
+    "firebase_url": "https://dinomao-ios-1536724073255.firebaseio.com",
+    "project_id": "dinomao-ios-1536724073255",
+    "storage_bucket": "dinomao-ios-1536724073255.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493599140751:android:08a784336331fb15",
+        "android_client_info": {
+          "package_name": "com.dinomao.livearcade"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493599140751-32u1gu63ja1ildkhaep27nipnl7tdcr5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dinomao.livearcade",
+            "certificate_hash": "ddc18f3e5fa8fb3bd3fb3b3de9bfb3f8de8e8f81"
+          }
+        },
+        {
+          "client_id": "493599140751-49fftvl1k55cdm0l3m9lj3uq7ageg00u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5DYirnkH7jTbcGOGIHHfpiaV5MbWMz-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493599140751-49fftvl1k55cdm0l3m9lj3uq7ageg00u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "493599140751-016f91lgeo4co9utr0g683pco4oojsbn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wjwl.dinoMao"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-8981937347812170~8541310867"
+    }
+  ],
+  "configuration_version": "1"
+}
