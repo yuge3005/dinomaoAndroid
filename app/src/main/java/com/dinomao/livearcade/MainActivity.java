@@ -31,6 +31,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.singular.sdk.*;
 
 import java.util.Arrays;
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         mContext = this.getApplicationContext();
 
         initSingularSDK();
+
+        GooglePlayPurchase.mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
 
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
