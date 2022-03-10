@@ -275,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void report( String str ){
+            System.out.println( "report: " + str );
             try {
                 String[] eventStrings = str.split("_");
                 String cmd = eventStrings[0];
@@ -285,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
                     case "buySuccess":
                         Singular.event("buySuccess", "id", eventStrings[1], "type", eventStrings[2], "price", eventStrings[3]);
                         break;
-                    case "no_video":
+                    case "no video":
                         FirebaseMG.report( "No_video" );
                         break;
                 }
@@ -294,7 +295,6 @@ public class MainActivity extends AppCompatActivity {
                 webView.post( new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println( str );
                         webView.loadUrl("javascript:alert('Singular report mistake');");
                     }
                 });
