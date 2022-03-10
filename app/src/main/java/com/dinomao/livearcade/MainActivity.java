@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         initSingularSDK();
 
-        GooglePlayPurchase.mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
+        FirebaseMG.mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
 
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -284,6 +284,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "buySuccess":
                         Singular.event("buySuccess", "id", eventStrings[1], "type", eventStrings[2], "price", eventStrings[3]);
+                        break;
+                    case "no_video":
+                        FirebaseMG.report( "No_video" );
                         break;
                 }
             }

@@ -1,7 +1,6 @@
 package com.dinomao.livearcade;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.android.billingclient.api.BillingFlowParams;
@@ -15,7 +14,6 @@ import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.singular.sdk.Singular;
 
 import java.util.ArrayList;
@@ -38,8 +36,6 @@ public class GooglePlayPurchase {
 
     private BillingClient billingClient;
     private Activity activity;
-
-    public static FirebaseAnalytics mFirebaseAnalytics;
 
     public static GooglePlayPurchase createPurchase(String purchaseInfoString, Activity mActivity, WebView mainWebView ){
         webView = mainWebView;
@@ -189,16 +185,7 @@ public class GooglePlayPurchase {
                 System.out.println("purchaseStr error");
             }
 
-            try{
-                Bundle params = new Bundle();
-                params.putString(FirebaseAnalytics.Param.CURRENCY, "USD");
-                params.putDouble(FirebaseAnalytics.Param.VALUE, Double.parseDouble("" + price ) );
-                mFirebaseAnalytics.logEvent( FirebaseAnalytics.Event.PURCHASE, params );
-            }
-            catch ( Exception e){
-                System.out.println("purchaseReport error");
-                System.out.println( e.getMessage() );
-            }
+            FirebaseMG.purchase( "USD", Double.parseDouble( "" + price ) );
 
             ConsumeParams consumeParams =
                     ConsumeParams.newBuilder()
