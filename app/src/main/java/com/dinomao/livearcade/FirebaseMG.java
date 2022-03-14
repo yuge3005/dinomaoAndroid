@@ -39,4 +39,10 @@ public class FirebaseMG {
             System.out.println( "event error: " + eventName );
         }
     }
+
+    public static void purchaseError( String reason ){
+        Bundle params = new Bundle();
+        params.putString(FirebaseAnalytics.Param.VALUE, reason);
+        FirebaseMG.mFirebaseAnalytics.logEvent( "purchase_error", params);
+    }
 }

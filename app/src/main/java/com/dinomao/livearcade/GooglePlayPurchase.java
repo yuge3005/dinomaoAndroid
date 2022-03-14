@@ -66,12 +66,25 @@ public class GooglePlayPurchase {
                 System.out.println( "connect" );
                 System.out.println( billingResult.getResponseCode() );
                 System.out.println( BillingClient.BillingResponseCode.OK );
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                int responseCode = billingResult.getResponseCode();
+                if (responseCode == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
                     System.out.println( "connect to google play server" );
                 }
                 else {
                     purchaseFaild();
+                    if( responseCode == BillingClient.BillingResponseCode.USER_CANCELED ){
+                        FirebaseMG.purchaseError( "Cart abandoning" );
+                    }
+                    else if( responseCode == BillingClient.BillingResponseCode.BILLING_UNAVAILABLE
+                        || responseCode == BillingClient.BillingResponseCode.ITEM_UNAVAILABLE
+                        || responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED
+                    ){
+                        FirebaseMG.purchaseError("Payment decline");
+                    }
+                    else {
+                        FirebaseMG.purchaseError("Error processing");
+                    }
                     return;
                 }
 
@@ -107,6 +120,7 @@ public class GooglePlayPurchase {
                 // Google Play by calling the startConnection() method.
                 System.out.println("onBillingServiceDisconnected");
                 purchaseFaild();
+                FirebaseMG.purchaseError( "Error processing" );
             }
         });
     }
@@ -138,7 +152,10 @@ public class GooglePlayPurchase {
                 .setSkuDetails(skuDetails)
                 .build();
         int responseCode = billingClient.launchBillingFlow(activity, billingFlowParams).getResponseCode();
-        if( responseCode > 0 ) purchaseFaild();
+        if( responseCode > 0 ){
+            purchaseFaild();
+            FirebaseMG.purchaseError( "Error processing" );
+        }
     }
 
     public static void purchaseFaild(){
@@ -162,9 +179,11 @@ public class GooglePlayPurchase {
                 // Handle an error caused by a user cancelling the purchase flow.
                 System.out.println("user cancel");
                 purchaseFaild();
+                FirebaseMG.purchaseError( "Cart abandoning" );
             } else {
                 // Handle any other error codes.
                 purchaseFaild();
+                FirebaseMG.purchaseError( "Error processing" );
             }
         }
 
