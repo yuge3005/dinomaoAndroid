@@ -308,15 +308,17 @@ public class MainActivity extends AppCompatActivity {
                     case "click the category":
                     case "exchange price for ticket":
                     case "exchange ticket for price":
-                    case "game replay":
                     case "leave room without play":
                     case "Loading time":
-                    case "stream error during play":
                     case "enter machine":
+                        FirebaseMG.report( cmd.replace( " ", "_" ), eventStrings[2] );
+                        break;
+                    case "game replay":
                     case "purchase through play button":
                     case "purchase through coin button":
                     case "connect error":
-                        FirebaseMG.report( cmd.replace( " ", "_" ), eventStrings[2] );
+                    case "stream error during play":
+                        FirebaseMG.report( cmd.replace( " ", "_" ) );
                         break;
                     default:
                         System.out.println( "unknow report event: " + str );
