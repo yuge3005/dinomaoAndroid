@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
@@ -166,6 +167,15 @@ public class MainActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            webView.loadUrl("javascript:document.back()");
+            return true;
+        }
+        return super.onKeyDown( keyCode, event );
+    }
+
     class WebChromeClientForMain extends WebChromeClient {
 
         @Override
@@ -274,6 +284,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
+        public void exitApp( String str ){
+            System.exit(0);
+        }
+
+        @JavascriptInterface
         public void report( String str ){
             System.out.println( "report: " + str );
             try {
@@ -288,6 +303,23 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "no video":
                         FirebaseMG.report( "No_video" );
+                        break;
+                    case "banner click":
+                    case "click the category":
+                    case "exchange price for ticket":
+                    case "exchange ticket for price":
+                    case "game replay":
+                    case "leave room without play":
+                    case "Loading time":
+                    case "stream error during play":
+                    case "enter machine":
+                    case "purchase through play button":
+                    case "purchase through coin button":
+                    case "connect error":
+                        FirebaseMG.report( cmd.replace( " ", "_" ), eventStrings[2] );
+                        break;
+                    default:
+                        System.out.println( "unknow report event: " + str );
                         break;
                 }
             }

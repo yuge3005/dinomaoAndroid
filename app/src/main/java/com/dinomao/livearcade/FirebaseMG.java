@@ -20,8 +20,21 @@ public class FirebaseMG {
     }
 
     public static void report( String eventName ){
+        System.out.println( "report: " + eventName );
         try {
             FirebaseMG.mFirebaseAnalytics.logEvent(eventName, null);
+        } catch (Exception e) {
+            System.out.println( "event error: " + eventName );
+        }
+    }
+
+    public static void report( String eventName, String extraStr ){
+        System.out.println( "report: " + eventName );
+        System.out.println( "extraStr: " + extraStr );
+        try {
+            Bundle params = new Bundle();
+            params.putString(FirebaseAnalytics.Param.VALUE, extraStr);
+            FirebaseMG.mFirebaseAnalytics.logEvent(eventName, params);
         } catch (Exception e) {
             System.out.println( "event error: " + eventName );
         }
