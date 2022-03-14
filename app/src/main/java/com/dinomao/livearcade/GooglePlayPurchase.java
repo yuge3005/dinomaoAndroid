@@ -64,9 +64,10 @@ public class GooglePlayPurchase {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
                 System.out.println( "connect" );
-                System.out.println( billingResult.getResponseCode() );
-                System.out.println( BillingClient.BillingResponseCode.OK );
                 int responseCode = billingResult.getResponseCode();
+                System.out.println( "responseCode:" + responseCode );
+                System.out.println( BillingClient.BillingResponseCode.OK );
+
                 if (responseCode == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
                     System.out.println( "connect to google play server" );
@@ -152,6 +153,7 @@ public class GooglePlayPurchase {
                 .setSkuDetails(skuDetails)
                 .build();
         int responseCode = billingClient.launchBillingFlow(activity, billingFlowParams).getResponseCode();
+        System.out.println( "responseCode:" + responseCode );
         if( responseCode > 0 ){
             purchaseFaild();
             FirebaseMG.purchaseError( "Error processing" );

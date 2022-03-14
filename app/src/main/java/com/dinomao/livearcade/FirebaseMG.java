@@ -41,8 +41,13 @@ public class FirebaseMG {
     }
 
     public static void purchaseError( String reason ){
-        Bundle params = new Bundle();
-        params.putString(FirebaseAnalytics.Param.VALUE, reason);
-        FirebaseMG.mFirebaseAnalytics.logEvent( "purchase_error", params);
+        System.out.println( "purchaseError:" + reason );
+        try {
+            Bundle params = new Bundle();
+            params.putString(FirebaseAnalytics.Param.VALUE, reason);
+            FirebaseMG.mFirebaseAnalytics.logEvent("purchase_error", params);
+        } catch (Exception e) {
+            System.out.println( "purchase error report failedd: " + reason );
+        }
     }
 }
