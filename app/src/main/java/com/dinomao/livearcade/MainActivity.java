@@ -37,6 +37,9 @@ import com.singular.sdk.*;
 
 import java.util.Arrays;
 
+import com.appsflyer.AppsFlyerLib;
+import com.appsflyer.attribution.AppsFlyerRequestListener;
+
 public class MainActivity extends AppCompatActivity {
 
     private WebViewClient webViewClient = new WebViewClientForMain();
@@ -131,6 +134,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         LoginManager.getInstance().setLoginBehavior( LoginBehavior.WEB_ONLY );
+
+        AppsFlyerLib.getInstance().init("KfxGNL5BaQVRfXW77w25uT", null, this);
+        AppsFlyerLib.getInstance().start( mContext, "KfxGNL5BaQVRfXW77w25uT", new AppsFlyerRequestListener() {
+            @Override
+            public void onSuccess() {
+                System.out.println("Launch sent successfully, got 200 response code from server");
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                System.out.println("Launch failed, Error code: " + i + "\n" + "Error description: " + s);
+            }
+        });
     }
 
     private void initSingularSDK() {
