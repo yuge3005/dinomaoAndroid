@@ -2,4 +2,5 @@
     <string name="app_name">dinomao</string>
     <string name="facebook_app_id">392398604916613</string>
     <string name="fb_login_protocol_scheme">fb392398604916613</string>
+    <string name="app_id">com.dinomao.livearcade</string>
 </resources>
