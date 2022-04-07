@@ -36,6 +36,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.singular.sdk.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.attribution.AppsFlyerRequestListener;
@@ -336,6 +337,8 @@ public class MainActivity extends AppCompatActivity {
                     case "stream error during play":
                         FirebaseMG.report( cmd.replace( " ", "_" ) );
                         break;
+                    case "ftd":
+                        AppsFlyerLib.getInstance().logEvent(mContext,cmd,new HashMap<>());
                     default:
                         System.out.println( "unknow report event: " + str );
                         break;
