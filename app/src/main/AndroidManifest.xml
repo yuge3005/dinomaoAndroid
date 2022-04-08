@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -39,19 +39,10 @@
 
                 <data
                     android:scheme="http"
-                    android:host="oneclick.dinomao.com"
-                    android:pathPrefix="/andriod" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
+                    android:host="oneclick.dinomao.com"/>
                 <data
                     android:scheme="https"
-                    android:host="oneclick.dinomao.com"
-                    android:pathPrefix="/andriod" />
+                    android:host="oneclick.dinomao.com"/>
             </intent-filter>
         </activity>
         <meta-data

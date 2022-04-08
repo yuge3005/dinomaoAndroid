@@ -96,8 +96,12 @@ public class MainActivity extends AppCompatActivity {
         webView.addJavascriptInterface(agloger, "androidLogger");
         agloger.webView = webView;
 
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
+
         androidId = Settings.System.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        webView.loadUrl(getMainUrl());
+        webView.loadUrl( getMainUrl() + ( appLinkData != null ? "&linkData=" + appLinkData.toString() : "" ) );
 
         mActivity = this;
         mContext = this.getApplicationContext();
@@ -339,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "ftd":
                         AppsFlyerLib.getInstance().logEvent(mContext,cmd,new HashMap<>());
+                        break;
                     default:
                         System.out.println( "unknow report event: " + str );
                         break;
