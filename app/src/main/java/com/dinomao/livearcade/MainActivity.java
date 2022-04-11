@@ -37,9 +37,12 @@ import com.singular.sdk.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.attribution.AppsFlyerRequestListener;
+import com.appsflyer.AppsFlyerConversionListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -140,7 +143,38 @@ public class MainActivity extends AppCompatActivity {
             });
         LoginManager.getInstance().setLoginBehavior( LoginBehavior.WEB_ONLY );
 
-        AppsFlyerLib.getInstance().init("KfxGNL5BaQVRfXW77w25uT", null, this);
+        AppsFlyerConversionListener conversionListener =  new AppsFlyerConversionListener() {
+            @Override
+            public void onConversionDataSuccess(Map<String, Object> map) {
+                for (String attrName : map.keySet())
+                    System.out.println( "Conversion attribute: " + attrName + " = " + map.get(attrName) );
+                String status = Objects.requireNonNull(map.get("af_status")).toString();
+                if(status.equals("Organic")){
+                    // Business logic for Organic conversion goes here.
+                }
+                else {
+                    // Business logic for Non-organic conversion goes here.
+                }
+            }
+
+            @Override
+            public void onConversionDataFail(String errorMessage) {
+                System.out.println( "error getting conversion data: " + errorMessage );
+            }
+
+            @Override
+            public void onAppOpenAttribution(Map<String, String> attributionData) {
+                // Must be overriden to satisfy the AppsFlyerConversionListener interface.
+                // Business logic goes here when UDL is not implemented.
+            }
+
+            @Override
+            public void onAttributionFailure(String errorMessage) {
+                System.out.println( "error onAttributionFailure : " + errorMessage );
+            }
+        };
+
+        AppsFlyerLib.getInstance().init("KfxGNL5BaQVRfXW77w25uT", conversionListener, this);
         AppsFlyerLib.getInstance().start( mContext, "KfxGNL5BaQVRfXW77w25uT", new AppsFlyerRequestListener() {
             @Override
             public void onSuccess() {
