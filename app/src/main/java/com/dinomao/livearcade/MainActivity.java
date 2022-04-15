@@ -236,7 +236,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onCreateWindow(WebView view, boolean isDialog,
                                       boolean isUserGesture, Message resultMsg) {
-            LoginManager.getInstance().logInWithReadPermissions( mActivity, Arrays.asList("public_profile") );
+            System.out.println( "create window: " );
+            System.out.println( resultMsg );
             return true;
         }
 
@@ -402,6 +403,11 @@ public class MainActivity extends AppCompatActivity {
 
             Intent shareIntent = Intent.createChooser(sendIntent, null);
             startActivity(shareIntent);
+        }
+
+        @JavascriptInterface
+        public void facebookLogin( String str ){
+            LoginManager.getInstance().logInWithReadPermissions( mActivity, Arrays.asList("public_profile") );
         }
     }
 }
