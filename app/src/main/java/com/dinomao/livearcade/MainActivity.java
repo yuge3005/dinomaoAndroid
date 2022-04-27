@@ -32,6 +32,8 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -247,15 +249,33 @@ public class MainActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            // Signed in successfully, show authenticated UI.
-            String token = account.getIdToken();
-            System.out.println("signInResult: loginSuccess: " + token );
 
-            String user_account_info = "platform=Android&sid=f4grk1ufogbq5ulmab43ud6oa5&access_token=" + token;
-            user_account_info += "&login_type=google";
-            webView.loadUrl("javascript:alert('登录成功')");
-            webView.loadUrl("javascript:alert('" + token + "')");
-            webView.loadUrl(mainUrl + "?user_account_info=" + user_account_info );
+            System.out.println("登录成功");
+
+            Thread tempThread = new Thread(){
+                public void run(){
+                    try {
+                        String access_token = GoogleAuthUtil.getToken(mContext, account.getAccount(), "oauth2: email");
+                        System.out.println("access_token: " + access_token );
+                        String user_account_info = "platform=Android&sid=f4grk1ufogbq5ulmab43ud6oa5&access_token=" + access_token;
+                        user_account_info += "&login_type=google";
+
+                        final String userAccountStr = user_account_info;
+
+                        webView.post( new Runnable() {
+                            @Override
+                            public void run() {
+                                webView.loadUrl(mainUrl + "?user_account_info=" + userAccountStr );
+                            }
+                        });
+
+                    }
+                    catch ( Exception e ){
+                        System.out.println("access_token error: " + e.getMessage() );
+                    }
+                }
+            };
+            tempThread.start();
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
