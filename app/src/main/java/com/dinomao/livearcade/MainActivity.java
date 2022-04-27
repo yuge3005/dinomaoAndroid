@@ -247,13 +247,21 @@ public class MainActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
             // Signed in successfully, show authenticated UI.
-            System.out.println(account);
+            String token = account.getIdToken();
+            System.out.println("signInResult: loginSuccess: " + token );
+
+            String user_account_info = "platform=Android&sid=f4grk1ufogbq5ulmab43ud6oa5&access_token=" + token;
+            user_account_info += "&login_type=google";
+            webView.loadUrl("javascript:alert('登录成功')");
+            webView.loadUrl("javascript:alert('" + token + "')");
+            webView.loadUrl(mainUrl + "?user_account_info=" + user_account_info );
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            System.out.println("signInResult:failed code=" + e.getStatusCode());
+            System.out.println("error: " + e.getStatusCode() );
+            String status = e.getStatus().toString();
+            webView.loadUrl("javascript:alert('" + status + ",code: " + e.getStatusCode() + "')");
         }
     }
 
