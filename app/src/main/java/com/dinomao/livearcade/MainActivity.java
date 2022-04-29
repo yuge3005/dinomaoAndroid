@@ -25,6 +25,8 @@ import android.graphics.Bitmap;
 import android.content.res.Resources;
 import android.widget.FrameLayout;
 
+import com.appsflyer.AFInAppEventParameterName;
+import com.appsflyer.AFInAppEventType;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -32,7 +34,6 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -68,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
     public String getMainUrl(){
         return mainUrl + "?platform=Android&id=" + androidId;
     }
-
-    private Bundle deeplinkData;
 
     public Boolean isLinkToToken = false;
 
@@ -421,6 +420,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "buySuccess":
                         Singular.event("buySuccess", "id", eventStrings[1], "type", eventStrings[2], "price", eventStrings[3]);
+
+                        Map<String, Object> eventValues = new HashMap<String, Object>();
+                        eventValues.put(AFInAppEventParameterName.REVENUE, eventStrings[3]);
+                        AppsFlyerLib.getInstance().logEvent(mContext, AFInAppEventType.PURCHASE, eventValues);
+
                         break;
                     case "no video":
                         FirebaseMG.report( "No_video" );
