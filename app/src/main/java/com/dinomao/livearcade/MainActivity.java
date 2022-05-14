@@ -423,6 +423,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Map<String, Object> eventValues = new HashMap<String, Object>();
                         eventValues.put(AFInAppEventParameterName.REVENUE, eventStrings[3]);
+                        eventValues.put(AFInAppEventParameterName.CURRENCY, "USD");
                         AppsFlyerLib.getInstance().logEvent(mContext, AFInAppEventType.PURCHASE, eventValues);
 
                         break;
