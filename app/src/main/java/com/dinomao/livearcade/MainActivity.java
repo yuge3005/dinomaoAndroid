@@ -202,6 +202,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        InstallReferrerUtil.setup( mContext );
     }
 
     private void initSingularSDK() {
