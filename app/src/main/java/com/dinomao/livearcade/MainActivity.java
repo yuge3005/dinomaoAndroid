@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     private WebViewClient webViewClient = new WebViewClientForMain();
 
     private WebView webView;
-    private WebView mWebviewPop;
     private FrameLayout mContainer;
     public Context mContext;
     public Activity mActivity;
@@ -367,14 +366,7 @@ public class MainActivity extends AppCompatActivity {
             webView.post( new Runnable() {
                 @Override
                 public void run() {
-                    webView.loadUrl(mainUrl + "?" + str);
-
-                    if (mWebviewPop != null) {
-                        mWebviewPop.setVisibility(View.GONE);
-                        mContainer.removeView(mWebviewPop);
-                        System.out.println(111146);
-                        mWebviewPop = null;
-                    }
+                    webView.loadUrl(mainUrl + "?" + InstallReferrerUtil.installReferrer() + "&" + str);
                 }
             });
         }

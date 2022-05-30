@@ -1,21 +1,13 @@
 package com.dinomao.livearcade;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.os.RemoteException;
-import android.text.TextUtils;
 
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
 
-import java.util.Iterator;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-
 public class InstallReferrerUtil {
-    private final static String INSTALL_REFERRER = "com.android.vending.INSTALL_REFERRER";
 
     private static String _installReferrer;
     public static String installReferrer() {
