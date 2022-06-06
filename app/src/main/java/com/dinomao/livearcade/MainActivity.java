@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                         webView.post( new Runnable() {
                             @Override
                             public void run() {
-                                webView.loadUrl(mainUrl + "?user_account_info=" + userAccountStr );
+                                webView.loadUrl(mainUrl + "?" + InstallReferrerUtil.installReferrer() + "&" + "user_account_info=" + userAccountStr );
                             }
                         });
 
